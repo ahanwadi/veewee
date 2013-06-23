@@ -12,6 +12,8 @@ module Veewee
 
           if File.exists?("/Library/Application Support/VMware Fusion/vmrun")
             ::Fission.config.attributes["vmrun_bin"] = "/Library/Application Support/VMware Fusion/vmrun"
+          elsif File.exists?("/usr/bin/vmrun")
+            ::Fission.config.attributes["vmrun_bin"] = "/usr/bin/vmrun"
           elsif File.exists?("/Applications/VMware Fusion.app/Contents/Library/vmrun")
             ::Fission.config.attributes["vmrun_bin"] = "/Applications/VMware Fusion.app/Contents/Library/vmrun"
           elsif
@@ -22,19 +24,20 @@ module Veewee
 
         def fusion_version
           # We ask the system profiler for all installed software
-          shell_results = shell_exec("system_profiler SPApplicationsDataType")
+          #shell_results = shell_exec("system_profiler SPApplicationsDataType")
 
-          env.logger.info("Checking version by querying the system_profiler")
-          env.logger.debug(shell_results.stdout)
+          version = "5.1"
+          return "5.1"
+          #env.logger.info("Checking version by querying the system_profiler")
+          #env.logger.debug(shell_results.stdout)
 
-          if (shell_results.stdout == "")
-            ui.warn "Could not detect the exact version of vmware. assuming 5.1"
-            version = "5.1"
-          else
-            version = shell_results.stdout.split(/VMware/)[1].split(/\n/)[2].split(/:/)[1].strip
-          end
+          #if (shell_results.stdout == "")
+          #  ui.warn "Could not detect the exact version of vmware. assuming 5.1"
+          #  version = "5.1"
+          #else
+          #  version = shell_results.stdout.split(/VMware/)[1].split(/\n/)[2].split(/:/)[1].strip
+          #end
 
-          return version
         end
 
       end #End Class

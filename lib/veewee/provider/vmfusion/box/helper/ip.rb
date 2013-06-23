@@ -26,7 +26,7 @@ module Veewee
           
           # Use alternate method to retrieve the IP address using vmrun readVariable
           
-          ip_address = shell_exec("#{vmrun_cmd.shellescape} readVariable \"#{vmx_file_path}\" guestVar ip", { :mute => true}).stdout.strip
+          ip_address = shell_exec("#{vmrun_cmd.shellescape} -T ws readVariable \"#{vmx_file_path}\" guestVar ip", { :mute => true}).stdout.strip
           return ip_address unless ip_address.empty?
         
           unless mac_address.nil?
@@ -60,7 +60,7 @@ module Veewee
           # The above is fancy but doesn't always agree, we need to do is ifconfig vmnet8
           # Ifconfig never lies
           shell_results = shell_exec("ifconfig vmnet8", { :mute => true})
-          shell_results.stdout.split(/\n/).grep(/inet /)[0].strip.split(/ /)[1]
+          shell_results.stdout.split(/\n/).grep(/inet /)[0].strip.split(/ /)[1].split(/:/)[1]
         end
 
       end

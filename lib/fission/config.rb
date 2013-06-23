@@ -32,6 +32,11 @@ module Fission
         @attributes['vmrun_bin'] = "/Applications/VMware Fusion.app/Contents/Library/vmrun"
       end
 
+      if File.exists?("/usr/bin/vmrun")  
+        @attributes['vmrun_bin'] = "/usr/bin/vmrun"
+      end
+      fusion_version = "1.2"
+
       if fusion_version == :unknown
       end
 
@@ -40,7 +45,7 @@ module Fission
 
       load_from_file
 
-      @attributes['vmrun_cmd'] = "#{@attributes['vmrun_bin'].gsub(' ', '\ ')} -T fusion"
+      @attributes['vmrun_cmd'] = "#{@attributes['vmrun_bin'].gsub(' ', '\ ')} -T ws"
     end
 
     # Public: Helper method to access config atributes.  This is a shortcut for
